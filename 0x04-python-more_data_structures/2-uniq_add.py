@@ -1,4 +1,4 @@
-#!usr/bin/python3
+#!/usr/bin/python3
 
 def uniq_add(my_list=[]):
     added = []
@@ -7,4 +7,4 @@ def uniq_add(my_list=[]):
         if i not in added:
             sum += i
             added.append(i)
-            return sum
+    return sum
