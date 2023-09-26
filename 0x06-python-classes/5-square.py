@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-""" define a class Square """
+""" define a class Square"""
 
 
 class Square():
@@ -12,7 +12,7 @@ class Square():
         else:
             self.__size = __size
 
-            @property
+    @property
     def size(self):
         return self.__size
 
