@@ -1,46 +1,41 @@
+#!/usr/bin/python3
 import sys
-"""Solves the N-queens puzzle"""
 
-def nqueens(N):
-    """ Check if N is an integer"""
-    try:
-        N = int(N)
-    except ValueError:
+
+def solve_n_queens(N):
+    def can_place(pos, oc_positions):
+        for i in range(len(oc_positions)):
+            if oc_positions[i] == pos or \
+                    oc_positions[i] - i == pos - len(oc_positions) or \
+                    oc_positions[i] + i == pos + len(oc_positions):
+                return False
+        return True
+
+    def place_queen(oc_positions, target_row, N):
+        if target_row == N:
+            result.append(oc_positions)
+            return
+        for column in range(N):
+            if can_place(column, oc_positions):
+                place_queen(oc_positions + [column], target_row + 1, N)
+
+    result = []
+    place_queen([], 0, N)
+    return result
+
+
+if __name__ == "__main__":
+    if len(sys.argv) != 2:
+        print("Usage: nqueens N")
+        sys.exit(1)
+    if not sys.argv[1].isdigit():
         print("N must be a number")
         sys.exit(1)
-        
-    """ Check if N is at least 4 """
+    N = int(sys.argv[1])
     if N < 4:
         print("N must be at least 4")
         sys.exit(1)
-        
-    """ Initialize the board """
-    board = [-1] * N
 
-    """Recursive function to find all solutions """
-    def place_queen(row, column):
-        """ Check if the queen can be placed in this column """
-        for i in range(row):
-            if board[i] == column or \
-               board[i] - i == column - row or \
-               board[i] + i == column + row:
-                return False
-        return True
-    
-    def solve(row):
-        if row == N:
-            print(" ".join(str(i+1) for i in board))
-            return
-        for col in range(N):
-            if place_queen(row, col):
-                board[row] = col
-                solve(row + 1)
-                
-    solve(0)
-
-""" Check if the correct number of arguments is provided """
-if len(sys.argv) != 2:
-    print("Usage: nqueens N")
-    sys.exit(1)
-
-nqueens(sys.argv[1])
+    solutions = solve_n_queens(N)
+    for sol in solutions:
+        print([[i, sol[i]] for i in range(N)])
