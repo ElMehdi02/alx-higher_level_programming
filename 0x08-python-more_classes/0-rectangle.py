@@ -1,8 +1,8 @@
 #!/usr/bin/python3
 
-"""define class rectangle"""
+""" define class rectangle"""
 
 
-class Recrangle():
-    """inside class rectangle"""
+class Rectangle():
+    """ inside class rectangle"""
     pass
