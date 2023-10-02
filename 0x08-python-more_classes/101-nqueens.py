@@ -2,40 +2,55 @@
 import sys
 
 
-def solve_n_queens(N):
-    def can_place(pos, oc_positions):
-        for i in range(len(oc_positions)):
-            if oc_positions[i] == pos or \
-                    oc_positions[i] - i == pos - len(oc_positions) or \
-                    oc_positions[i] + i == pos + len(oc_positions):
-                return False
-        return True
-
-    def place_queen(oc_positions, target_row, N):
-        if target_row == N:
-            result.append(oc_positions)
-            return
-        for column in range(N):
-            if can_place(column, oc_positions):
-                place_queen(oc_positions + [column], target_row + 1, N)
-
-    result = []
-    place_queen([], 0, N)
-    return result
+def is_safe(board, row, col, N):
+    for i in range(row):
+        if board[i][col] == 1:
+            return False
+        if col - (row - i) >= 0 and board[i][col - (row - i)] == 1:
+            return False
+        if col + (row - i) < N and board[i][col + (row - i)] == 1:
+            return False
+    return True
 
 
-if __name__ == "__main__":
+def solve_nqueens(board, row, N, solutions):
+    if row == N:
+        solutions.append([[r, c] for r, c in enumerate(board)])
+        return
+
+    for col in range(N):
+        if is_safe(board, row, col, N):
+            board[row][col] = 1
+            solve_nqueens(board, row + 1, N, solutions)
+            board[row][col] = 0
+
+
+def print_solutions(solutions):
+    for solution in solutions:
+        print(solution)
+
+
+def main():
     if len(sys.argv) != 2:
         print("Usage: nqueens N")
         sys.exit(1)
-    if not sys.argv[1].isdigit():
+
+    try:
+        N = int(sys.argv[1])
+    except ValueError:
         print("N must be a number")
         sys.exit(1)
-    N = int(sys.argv[1])
+
     if N < 4:
         print("N must be at least 4")
         sys.exit(1)
 
-    solutions = solve_n_queens(N)
-    for sol in solutions:
-        print([[i, sol[i]] for i in range(N)])
+    board = [[0 for _ in range(N)] for _ in range(N)]
+    solutions = []
+
+    solve_nqueens(board, 0, N, solutions)
+    print_solutions(solutions)
+
+
+if __name__ == "__main__":
+    main()
