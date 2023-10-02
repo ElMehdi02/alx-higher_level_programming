@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-"""define class rectangle"""
+""" define class rectangle"""
 
 
 class Rectangle():
@@ -25,7 +25,7 @@ class Rectangle():
     def height(self):
         return self.__height
 
-    @height.stter
+    @height.setter
     def height(self, value):
         if not isinstance(value, int):
             raise TypeError("height must be an integer")
