@@ -38,4 +38,3 @@ for line in sys.stdin:
         line_count += 1
         if line_count % 10 == 0:
             print_stats()
-
